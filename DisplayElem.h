@@ -7,5 +7,6 @@
 class DisplayElem{
 public:
     virtual void display() = 0;
+    virtual ~DisplayElem() = default;;
 };
 #endif //UNTITLED13_DISPLAYELEM_H

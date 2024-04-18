@@ -5,29 +5,33 @@
 #include "Data.h"
 
 Data::Data(){
-    Observers = std::vector<std::shared_ptr<Observer>>();
+    observers = *new std::vector<std::weak_ptr<Observer>>();
 }
-void Data::registerObserver (const std::shared_ptr<Observer>& o) {
-    Observers.push_back(o);
+void Data::registerObserver (const std::weak_ptr<Observer>& o) {
+    observers.push_back(o);
 }
-void Data::removeObserver(const std::shared_ptr<Observer> &o)
+void Data::removeObserver(const std::weak_ptr<Observer> &o)
 {
-    for (int i = 0; i < Observers.size(); ++i) {
-        if (o == Observers[i]){
-            Observers.erase(Observers.begin() + i);
+    for (int i = 0; i < observers.size(); ++i) {
+        std::shared_ptr<Observer> tmp  = observers[i].lock();
+        if (tmp && o.lock() && o.lock() == tmp){
+            observers.erase(observers.begin() + i);
         }
     }
 }
 void Data::notifyObserver(){
-    for (int i = 0; i < Observers.size(); ++i) {
-        Observers[i]->update(temperature, pressure, humidity);
+    for (int i = 0; i < observers.size(); ++i) {
+        std::shared_ptr<Observer> tmp  = observers[i].lock();
+        if(tmp) {
+            tmp->update(temperature, pressure, humidity);
+        }
     }
 }
 void Data::measurmentsChanged() {
     notifyObserver();
 }
 Data& Data::operator=(const Data &data) {
-    this->Observers = data.Observers;
+    this->observers = data.observers;
     this->temperature = data.temperature;
     this->pressure = data.pressure;
     this->humidity = data.humidity;

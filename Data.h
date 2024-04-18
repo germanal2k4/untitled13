@@ -15,12 +15,12 @@ private:
     double temperature;
     double humidity;
     double pressure;
-    std::vector<std::shared_ptr<Observer>> Observers;
+    std::vector<std::weak_ptr<Observer>> observers;
 public:
     explicit Data();
-    void registerObserver(const std::shared_ptr<Observer>& o) override;
+    void registerObserver(const std::weak_ptr<Observer>& o) override;
     void notifyObserver() override;
-    void removeObserver(const std::shared_ptr<Observer>& o) override;
+    void removeObserver(const std::weak_ptr<Observer>& o) override;
     void measurmentsChanged();
     void setMeasurements(const double& temperature, const double& pressure,const double& humidity);
     Data& operator=(const Data& data);

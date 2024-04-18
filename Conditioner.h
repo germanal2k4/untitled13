@@ -8,16 +8,17 @@
 #include "Data.h"
 #include "DisplayElem.h"
 #include "Observer.h"
+#include <memory>
 
-class Conditioner : public DisplayElem, Observer{
+class Conditioner : public DisplayElem, public Observer{
 private:
     double temperature;
     double pressure;
-    Data data;
+    std::unique_ptr<Subject> data;
 public:
-    explicit Conditioner(const Subject &data);
+    explicit Conditioner(std::unique_ptr<Subject> data);
     void update(double temp, double pressure, double humid) override;
-
+    void display() override;
 };
 
 

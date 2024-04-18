@@ -7,5 +7,6 @@
 class Observer{
 public:
     virtual void update(double temp, double pressure, double humid) = 0;
+    virtual ~Observer() = default;
 };
 #endif //UNTITLED13_OBSERVER_H
