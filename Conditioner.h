@@ -14,9 +14,8 @@ class Conditioner : public DisplayElem, public Observer{
 private:
     double temperature;
     double pressure;
-    std::unique_ptr<Subject> data;
+    std::shared_ptr<Subject> data;
 public:
-    explicit Conditioner(std::unique_ptr<Subject> data);
     void update(double temp, double pressure, double humid) override;
     void display() override;
 };

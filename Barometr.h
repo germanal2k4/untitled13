@@ -13,9 +13,8 @@
 class Barometr : public DisplayElem, public Observer{
     double temperature;
     double humidity;
-    std::unique_ptr<Subject> data;
+    std::shared_ptr<Subject> data;
 public:
-    explicit Barometr(std::unique_ptr<Subject> data);
     void update(double temp, double pressure, double humid) override;
     void display() override;
 };

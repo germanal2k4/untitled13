@@ -17,13 +17,11 @@ private:
     double pressure;
     std::vector<std::weak_ptr<Observer>> observers;
 public:
-    explicit Data();
     void registerObserver(const std::weak_ptr<Observer>& o) override;
     void notifyObserver() override;
     void removeObserver(const std::weak_ptr<Observer>& o) override;
     void measurmentsChanged();
     void setMeasurements(const double& temperature, const double& pressure,const double& humidity);
-    Data& operator=(const Data& data);
 };
 
 
